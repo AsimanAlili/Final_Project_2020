@@ -1,0 +1,13 @@
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.exe
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.deps.json
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.runtimeconfig.json
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.runtimeconfig.dev.json
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.dll
+C:\Users\HP\Desktop\Final-Project\Final-Project\bin\Debug\netcoreapp3.1\Final-Project.pdb
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.csprojAssemblyReference.cache
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.AssemblyInfoInputs.cache
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.AssemblyInfo.cs
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.dll
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.pdb
+C:\Users\HP\Desktop\Final-Project\Final-Project\obj\Debug\netcoreapp3.1\Final-Project.genruntimeconfig.cache
