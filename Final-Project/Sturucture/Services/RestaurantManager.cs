@@ -1,7 +1,9 @@
 ﻿using Final_Project.Sturucture.Enums;
 using Final_Project.Sturucture.Exceptions;
 using Final_Project.Sturucture.Models;
-using Final_Project.Sturucture.NewFolder;
+using Final_Project.Sturucture.Interfaces;
+
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,17 +12,16 @@ namespace Final_Project.Sturucture.Services
 {
      public class RestaurantManager: IRestaurantManager
     {
-        public MenuItem MenuItem { get ; set ; }
-        List<MenuItem> MenuItems { get; set; }
-        List<Order> Orders { get; set; }
-        
-        List<Order> IRestaurantManager.Orders { get ; set ; }
-
+        #region RestaurantManager
+        public List<MenuItem> MenuItems { get; set; }
+        public List<Order> Orders { get; set; }
         public RestaurantManager()
         {
             MenuItems = new List<MenuItem>();
             Orders = new List<Order>();
         }
+        #endregion
+
 
         #region MenuItemMethods
         public void AddMenuItem(string name, double price, Category category)
@@ -104,24 +105,31 @@ namespace Final_Project.Sturucture.Services
 
         #endregion
 
-
-
-
-        public void AddOrder(string no,int count)
-        {
-            if (count < 0) return;
-            Order order = new Order();
-            MenuItem item = MenuItems.Find(i => i.No.ToLower().Trim().Equals(no.Trim().ToLower()));
-
-            OrderItem orderItem = new OrderItem(item, count);
-            order.OrderItems.Add(orderItem);
-            order.Sell(item.Name, orderItem.Count);
-
-            Orders.Add(order);
-        }
-
+        #region OrderMethods
        
 
+        #region AddOrder
+        public void AddOrder(List<OrderItem> orderItems,Order order)
+        {
+            foreach (var item in orderItems)
+            {
+                OrderItem orderItem = order.OrderItems.Find(i => i.Equals(item));
+                if (orderItem==null)
+                {
+                    order.OrderItems.Add(item);
+                }
+            }
+
+            Order order1 = Orders.Find(i => i.No.Equals(order.No));
+            if (order1==null)
+            {
+                Orders.Add(order);
+            }
+           
+        }
+        #endregion
+
+        #region GetOrderByDate
         public List<Order> GetOrderByDate(DateTime date)
         {
 
@@ -129,18 +137,20 @@ namespace Final_Project.Sturucture.Services
             {
                 List<Order> dateOrder = Orders.FindAll(i => i.Date.Equals(date));
                 return dateOrder;
-                
+
             }
             else
             {
                 throw new ServiceInvalidDateException("Date", "Enter the *Date* correctly!");
             }
         }
+        #endregion
 
+        #region GetOrderByNo
         public void GetOrderByNo(int no)
         {
             Order orderNo = Orders.Find(i => i.No.Equals(no));
-            if (orderNo==null)
+            if (orderNo == null)
             {
                 throw new OrderNotFoundException("Order", "Does not exist!");
 
@@ -149,26 +159,53 @@ namespace Final_Project.Sturucture.Services
             {
                 foreach (var item in orderNo.OrderItems)
                 {
-                    Console.WriteLine($"OrderNo:  {orderNo.No}\nDate: {orderNo.Date}\nTotal Amount: { orderNo.TotalAmount}\nMenu Items Count:  {MenuItems.Count}");
+                    int totalCount = 0;
+                    totalCount += item.Count;
+                    Console.WriteLine($"OrderNo:  {orderNo.No}\nDate: {orderNo.Date}\nTotal Amount: { orderNo.TotalAmount}" +
+                        $"\nMenu Items Count:  {totalCount}\nMenu item name: {item.MenuItem.Name}\nMenu item No: {item.MenuItem.No}" +
+                        $"\nCategory: {item.MenuItem.Category}\nPrice: {item.MenuItem.Price}");
                 }
 
             }
 
         }
+        #endregion
 
+        #region GetOrders
         public void GetOrders()
         {
-            foreach (var item in Orders)
+            foreach (var item1 in Orders)
             {
-                Console.WriteLine($"No: {item.No}\nTotal Amount: {item.TotalAmount}\nDate: {item.Date}");
+                
+                if (Orders.Count == 0)
+                {
+                    Console.WriteLine("Not found orders");
+                }
+                else
+                {
+                    foreach (var orderItem  in Orders)
+                    {
+                        int totalCount = 0;
+                        foreach (var item in orderItem.OrderItems)
+                        {
+                            totalCount += item.Count;
+                        }
+                        Console.WriteLine($"No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
+                    }
+                    
+                }
+               
             }
-        }
 
+        }
+        #endregion
+
+        #region GetOrdersByDatesInterval
         public List<Order> GetOrdersByDatesInterval(DateTime fromDate, DateTime toDate)
         {
             if (fromDate != null && toDate != null)
             {
-                if (fromDate <toDate )
+                if (fromDate < toDate)
                 {
                     List<Order> dateInterval = Orders.FindAll(i => i.Date >= fromDate && i.Date <= toDate);
                     return dateInterval;
@@ -182,14 +219,16 @@ namespace Final_Project.Sturucture.Services
             {
                 throw new ServiceInvalidDateException("Date", "Date incorrect input!");
             }
-           
-        }
 
+        }
+        #endregion
+
+        #region GetOrdersByPriceInterval
         public List<Order> GetOrdersByPriceInterval(double firstPrice, double secondPrice)
         {
-            if (firstPrice>0 && secondPrice>0)
+            if (firstPrice > 0 && secondPrice > 0)
             {
-                if (secondPrice>firstPrice)
+                if (secondPrice > firstPrice)
                 {
                     List<Order> priceInterval = Orders.FindAll(i => i.TotalAmount >= firstPrice && i.TotalAmount <= secondPrice);
                     return priceInterval;
@@ -205,18 +244,26 @@ namespace Final_Project.Sturucture.Services
                 throw new ServiceInvalidPriceException("Price", "Price incorrect input!");
             }
         }
+        #endregion
 
 
+        #region RemoveOrder
         public void RemoveOrder(int orderNo)
         {
             Order orderRemove = Orders.Find(i => i.No.Equals(orderNo));
             Orders.Remove(orderRemove);
         }
+        #endregion
+
+        #region IsExistByName
         public bool IsExistByName(string no)
         {
             no = no.Trim().ToLower();
-            return MenuItems.Exists(b => b.No.ToLower() == no);
+            return MenuItems.Exists(i => i.No.ToLower() == no);
         }
+        #endregion
+        #endregion
+
 
     }
 }

@@ -12,8 +12,9 @@ namespace Final_Project
     {
         static void Main(string[] args)
         {
+            #region RestaurantManager
             RestaurantManager restaurantManager = new RestaurantManager();
-            Console.WriteLine("=======Restaurant=======");
+            Console.WriteLine("=~=~=~=~=~=~Restaurant~=~=~=~=~=~=");
             bool oprChecker = true;
         MenuStart:
             if (!oprChecker)
@@ -24,6 +25,10 @@ namespace Final_Project
             Console.WriteLine("1.Perform an operation on the Menu");
             Console.WriteLine("2.Perform an operation on the Order");
             Console.WriteLine("0.Exit to system");
+            Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=");
+            #endregion
+            #region RestaurantManagerSwitch
+
 
             string selectedOpr = Console.ReadLine();
 
@@ -31,7 +36,8 @@ namespace Final_Project
             {
                 case "1":
                     #region MenuItemsChecker
-                    Console.WriteLine("========Menu=========");
+
+                    Console.WriteLine("=~=~=~=~=~=~=~Menu~=~=~=~=~=~=~=");
                     bool oprMenuChecker = true;
                 MenuItemStart:
 
@@ -49,6 +55,7 @@ namespace Final_Project
                     Console.WriteLine("6.Show menu items price interval");
                     Console.WriteLine("7.Search menu items by name");
                     Console.WriteLine("0.Go back to main menu");
+                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=");
                     #endregion
 
                     #region MenuItemSwitchCase
@@ -92,7 +99,7 @@ namespace Final_Project
 
                 case "2":
                     #region OrderChecker
-                    Console.WriteLine("==========Order==========");
+                    Console.WriteLine("=~=~=~=~=~=~=~Order~=~=~=~=~=~=~=");
 
                     bool oprOrderChecker = true;
                 OrderStart:
@@ -111,6 +118,7 @@ namespace Final_Project
                     Console.WriteLine("6.Show order by date");
                     Console.WriteLine("7.Show  order by No");
                     Console.WriteLine("0.Go back to main menu");
+                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=");
 
                     #endregion
 
@@ -121,7 +129,6 @@ namespace Final_Project
                         case "1":
                             AddOrder(ref restaurantManager);
                             break;
-
                         case "2":
                             RemoveOrder(ref restaurantManager);
                             break;
@@ -157,8 +164,7 @@ namespace Final_Project
 
             }
             goto MenuStart;
-
-
+            #endregion
         }
         #region MenuItemMethods
         #region AddMenuItem
@@ -177,7 +183,7 @@ namespace Final_Project
             string priceStr = Console.ReadLine();
             double price;
 
-            while (!double.TryParse(priceStr, out price) || price < 0)
+            while (!double.TryParse(priceStr, out price) || price <= 0)
             {
                 Console.WriteLine("Error! Enter the *Price* correctly!");
                 priceStr = Console.ReadLine();
@@ -231,7 +237,7 @@ namespace Final_Project
             string priceStr = Console.ReadLine();
             double price;
 
-            while (!double.TryParse(priceStr, out price) || price < 0)
+            while (!double.TryParse(priceStr, out price) || price <= 0)
             {
                 Console.WriteLine("Error! Enter the price correctly!");
                 priceStr = Console.ReadLine();
@@ -319,7 +325,7 @@ namespace Final_Project
             string firstPriceStr = Console.ReadLine();
             double firstPrice;
 
-            while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice < 0)
+            while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice <= 0)
             {
                 Console.WriteLine("Error! Enter the price correctly!");
                 firstPriceStr = Console.ReadLine();
@@ -329,7 +335,7 @@ namespace Final_Project
             string secondPriceStr = Console.ReadLine();
             double secondPrice;
 
-            while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice < 0)
+            while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice <= 0)
             {
                 Console.WriteLine("Error! Enter the price correctly!");
                 secondPriceStr = Console.ReadLine();
@@ -365,12 +371,43 @@ namespace Final_Project
 
 
         #region OrderMethods
+        #region CreatOrderItems
+        public static List<OrderItem> CreatOrderItems(MenuItem menuItem, List<OrderItem> orderItems, int count)
+        {
+
+            OrderItem orderItem = new OrderItem(menuItem, count);
+            OrderItem orderItem1 = orderItems.Find(i => i.MenuItem.No == menuItem.No);
+            if (orderItem1 == null)
+            {
+                orderItems.Add(orderItem);
+
+            }
+            else
+            {
+                orderItem1.Count += count;
+            }
+            return orderItems;
+
+        }
+        #endregion
+
         #region AddOrder
+
         public static void AddOrder(ref RestaurantManager restaurantManager)
         {
+            Order order = new Order();
+            List<OrderItem> orderItems = new List<OrderItem>();
+            List<OrderItem> orderItems1 = new List<OrderItem>();
         AddOrder:
             Console.WriteLine("Enter Menu Number");
             string orderNo = Console.ReadLine();
+
+            while (!restaurantManager.IsExistByName(orderNo))
+            {
+                Console.WriteLine("Error! Enter the *No* correctly!");
+                orderNo = Console.ReadLine();
+            }
+
 
             while (string.IsNullOrWhiteSpace(orderNo))
             {
@@ -378,6 +415,8 @@ namespace Final_Project
                 orderNo = Console.ReadLine();
 
             }
+
+            MenuItem menu = restaurantManager.MenuItems.Find(i => i.No.ToLower().Trim().Equals(orderNo.Trim().ToLower()));
             Console.WriteLine("Enter the count:");
             string countStr = Console.ReadLine();
             int count;
@@ -388,16 +427,18 @@ namespace Final_Project
                 countStr = Console.ReadLine();
             }
 
-            try
+            foreach (var item in CreatOrderItems(menu, orderItems1, count))
             {
-                restaurantManager.AddOrder(orderNo, count);
-                Console.WriteLine("Order added successfully!");
+                OrderItem orderItem = orderItems.Find(i => i.MenuItem.Name == item.MenuItem.Name);
+                if (orderItem == null)
+                {
+                    orderItems.Add(item);
+                }
             }
-            catch (OrderNotFoundException ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-            Console.WriteLine("contunie added");
+            restaurantManager.AddOrder(orderItems, order);
+            order.Sell(menu.Name, count);
+
+            Console.WriteLine("Write *yes* if you want to add?");
             string add = Console.ReadLine();
             if (add == "yes")
             {
@@ -439,13 +480,31 @@ namespace Final_Project
         {
             Console.WriteLine("Enter first date");
             DateTime datefirstTime = Convert.ToDateTime(Console.ReadLine());
-            restaurantManager.GetOrderByDate(datefirstTime);
+          
 
             Console.WriteLine("Enter second date");
             DateTime datesecondTime = Convert.ToDateTime(Console.ReadLine());
-            restaurantManager.GetOrderByDate(datefirstTime);
 
-            restaurantManager.GetOrdersByDatesInterval(datefirstTime, datesecondTime);
+
+            List<Order> ordersDate = restaurantManager.GetOrdersByDatesInterval(datefirstTime, datesecondTime);
+            if (ordersDate==null)
+            {
+                Console.WriteLine("yoxdur");
+            }
+            else
+            {
+                foreach (var orderItem in ordersDate)
+                {
+                    int totalCount = 0;
+                    foreach (var item in orderItem.OrderItems)
+                    {
+                        totalCount += item.Count;
+                    }
+                    Console.WriteLine($"No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
+                }
+
+            }
+            
 
 
         }
@@ -459,7 +518,7 @@ namespace Final_Project
             string firstPriceStr = Console.ReadLine();
             double firstPrice;
 
-            while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice < 0)
+            while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice <= 0)
             {
                 Console.WriteLine("Error! Enter the price correctly!");
                 firstPriceStr = Console.ReadLine();
@@ -469,15 +528,20 @@ namespace Final_Project
             string secondPriceStr = Console.ReadLine();
             double secondPrice;
 
-            while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice < 0)
+            while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice <= 0)
             {
                 Console.WriteLine("Error! Enter the price correctly!");
                 secondPriceStr = Console.ReadLine();
             }
             List<Order> orderPrice = restaurantManager.GetOrdersByPriceInterval(firstPrice, secondPrice);
-            foreach (var item in orderPrice)
+            foreach (var orderItem in orderPrice)
             {
-                Console.WriteLine($"No: {item.No}\nTotal Amount: {item.TotalAmount}\nDate: {item.Date}\nCount: {item.OrderItems.Count}");
+                int totalCount = 0;
+                foreach (var item in orderItem.OrderItems)
+                {
+                    totalCount += item.Count;
+                }
+                Console.WriteLine($"No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
             }
 
         }
@@ -487,12 +551,19 @@ namespace Final_Project
         #region ShowOrderByDate
         public static void ShowOrderByDate(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter first date:");
+            Console.WriteLine("Enter the *Date*:");
             DateTime dateTime = Convert.ToDateTime(Console.ReadLine());
             restaurantManager.GetOrderByDate(dateTime);
-
+            foreach (var orderItem in restaurantManager.GetOrderByDate(dateTime))
+            {
+                int totalCount = 0;
+                foreach (var item in orderItem.OrderItems)
+                {
+                    totalCount += item.Count;
+                }
+                Console.WriteLine($"No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
+            }
         }
-
         #endregion
 
         #region ShowOrderByNo
@@ -515,8 +586,6 @@ namespace Final_Project
         #endregion
 
         #endregion
-
-
 
     }
 }

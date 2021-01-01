@@ -34,7 +34,7 @@ namespace Final_Project.Sturucture.Models
             }
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
                     throw new MenuModelInvalidException("Price", "Price can not be less than zero!");
                 }
@@ -59,14 +59,15 @@ namespace Final_Project.Sturucture.Models
         private static string MenuItemDesertName { get; set; } = "DE";
 
         #endregion
+
+        #region MenuItemConsturctor
         public MenuItem(string name, double price, Category category)
         {
             this._name = name;
-           
             this._price = price;
             this.Category = category;
 
-            #region NoCreation
+            #region MenuItemSwitch
             string MenuItemMainCounterStr;
             string MenuItemSoupCounterStr;
             string MenuItemDrinkCounterStr;
@@ -99,5 +100,7 @@ namespace Final_Project.Sturucture.Models
 
             }
         }
+        #endregion
+
     }
 }

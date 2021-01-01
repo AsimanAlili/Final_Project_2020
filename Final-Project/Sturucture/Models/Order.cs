@@ -9,13 +9,9 @@ namespace Final_Project.Sturucture.Models
     {
         private int _no;
         private double _totalAmount;
-
-
         public int No { get { return _no; } } 
         public static int OrderCounter { get; set; }
-
         public double TotalAmount { get { return _totalAmount; } }
-       
         public DateTime Date { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public Order()
@@ -25,18 +21,26 @@ namespace Final_Project.Sturucture.Models
             Date = DateTime.Now.Date;
             OrderItems = new List<OrderItem>();
         }
+        #region Sell
         public void Sell(string name, int count)
         {
-            
+
             if (count <= 0) return;
-            OrderItem orderItem= OrderItems.Find(o=>o.MenuItem.Name.Equals(name));
+            OrderItem orderItem = OrderItems.Find(o => o.MenuItem.Name.Equals(name));
+
+
+            if (orderItem == null) return;
+
 
             
-            if (orderItem == null) return;
-           
-            orderItem.Count = count;
-            this._totalAmount+= count * orderItem.MenuItem.Price;
+            
+                orderItem.Count = count;
+                this._totalAmount += count * orderItem.MenuItem.Price;
+            
+
         }
-       
+        #endregion
+
+
     }
 }
