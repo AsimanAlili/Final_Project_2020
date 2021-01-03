@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\HP\\Desktop\\Final-Project\\Final-Project\\Final-Project.csproj",
+      "projectUniqueName": "C:\\Users\\HP\\Desktop\\Final_Project_2020\\Final-Project\\Final-Project.csproj",
       "projectName": "Final-Project",
-      "projectPath": "C:\\Users\\HP\\Desktop\\Final-Project\\Final-Project\\Final-Project.csproj",
+      "projectPath": "C:\\Users\\HP\\Desktop\\Final_Project_2020\\Final-Project\\Final-Project.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\HP\\Desktop\\Final-Project\\Final-Project\\obj\\",
+      "outputPath": "C:\\Users\\HP\\Desktop\\Final_Project_2020\\Final-Project\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

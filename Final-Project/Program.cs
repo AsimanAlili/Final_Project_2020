@@ -27,6 +27,7 @@ namespace Final_Project
             Console.WriteLine("0.Exit to system");
             Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=");
             #endregion
+
             #region RestaurantManagerSwitch
 
 
@@ -438,9 +439,17 @@ namespace Final_Project
             restaurantManager.AddOrder(orderItems, order);
             order.Sell(menu.Name, count);
 
-            Console.WriteLine("Write *yes* if you want to add?");
+            Console.WriteLine("Type *Yes* if you want to add");
             string add = Console.ReadLine();
-            if (add == "yes")
+            while (string.IsNullOrWhiteSpace(orderNo))
+            {
+                Console.WriteLine("Error! Enter the order number correctly!");
+                add = Console.ReadLine();
+               
+
+            }
+            string answer = "yes";
+            if (add.ToLower().Trim() == answer.ToLower().Trim())
             {
                 goto AddOrder;
             }
