@@ -24,6 +24,8 @@ namespace Final_Project.Sturucture.Services
 
 
         #region MenuItemMethods
+        
+        #region AddMenuItem
         public void AddMenuItem(string name, double price, Category category)
         {
             string nameStr = name.Trim().ToLower();
@@ -35,6 +37,10 @@ namespace Final_Project.Sturucture.Services
             MenuItem menuItem = new MenuItem(name, price, category);
             MenuItems.Add(menuItem);
         }
+
+        #endregion
+
+        #region EditMenuItem
         public MenuItem EditMenuItem(string name, double price, string no)
         {
             MenuItem searched = MenuItems.Find(i => i.No.ToLower().Trim().Equals(no.Trim().ToLower()));
@@ -51,6 +57,9 @@ namespace Final_Project.Sturucture.Services
             return searched;
         }
 
+        #endregion
+
+        #region GetMenuItems
         public void GetMenuItems()
         {
             foreach (var item in MenuItems)
@@ -59,12 +68,18 @@ namespace Final_Project.Sturucture.Services
             }
         }
 
+        #endregion
+
+        #region GetMenuItemsCategory
         public List<MenuItem> GetMenuItemsCategory(Category category)
         {
             List<MenuItem> menuItem = MenuItems.FindAll(i => i.Category.Equals(category));
             return menuItem;
         }
 
+        #endregion
+
+        #region GetMenuItemsPriceInterval
         public List<MenuItem> GetMenuItemsPriceInterval(double firstPrice, double secondPrice)
         {
             if (firstPrice > 0 && secondPrice > 0)
@@ -72,7 +87,7 @@ namespace Final_Project.Sturucture.Services
                 if (secondPrice < firstPrice)
                 {
 
-                    throw new InvalidPriceIntervalException("Price", "The second price cannot be less than the first!");
+                    throw new InvalidPriceIntervalException("Price", "The *Second* price cannot be less than the *First*!");
                 }
                 else
                 {
@@ -87,12 +102,20 @@ namespace Final_Project.Sturucture.Services
             }
 
         }
+
+        #endregion
+
+        #region RemoveItem
         public void RemoveItem(string menuItemNo)
         {
             menuItemNo = menuItemNo.Trim().ToLower();
             MenuItem menuRemove = MenuItems.Find(i => i.No.ToLower().Trim().Equals(menuItemNo));
             MenuItems.Remove(menuRemove);
         }
+
+        #endregion
+
+        #region Search
         public List<MenuItem> Search(string searchStr)
         {
             searchStr = searchStr.Trim().ToLower();
@@ -102,11 +125,11 @@ namespace Final_Project.Sturucture.Services
             return searchedMenuItem;
         }
 
+        #endregion
 
         #endregion
 
         #region OrderMethods
-       
 
         #region AddOrder
         public void AddOrder(List<OrderItem> orderItems,Order order)
@@ -152,7 +175,7 @@ namespace Final_Project.Sturucture.Services
             Order orderNo = Orders.Find(i => i.No.Equals(no));
             if (orderNo == null)
             {
-                throw new OrderNotFoundException("Order", "Does not exist!");
+                throw new OrderNotFoundException("Order:", "Does not exist!");
 
             }
             else
@@ -179,7 +202,7 @@ namespace Final_Project.Sturucture.Services
                 
                 if (Orders.Count == 0)
                 {
-                    Console.WriteLine("Not found orders");
+                    Console.WriteLine("Not found *Orders*");
                 }
                 else
                 {
@@ -190,7 +213,7 @@ namespace Final_Project.Sturucture.Services
                         {
                             totalCount += item.Count;
                         }
-                        Console.WriteLine($"No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
+                        Console.WriteLine($"Total Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
                     }
                     
                 }
@@ -212,12 +235,12 @@ namespace Final_Project.Sturucture.Services
                 }
                 else
                 {
-                    throw new ServiceInvalidDateException("Date", "The Second date cannot be less than the first date!");
+                    throw new ServiceInvalidDateException("Date", "The *Second* date cannot be less than the *First* date!");
                 }
             }
             else
             {
-                throw new ServiceInvalidDateException("Date", "Date incorrect input!");
+                throw new ServiceInvalidDateException("Date:", "Date incorrect input!");
             }
 
         }
@@ -236,16 +259,15 @@ namespace Final_Project.Sturucture.Services
                 }
                 else
                 {
-                    throw new ServiceInvalidPriceException("Price", "The Second Price cannot be less than the first price!");
+                    throw new ServiceInvalidPriceException("Price", "The *Second* price cannot be less than the *First* price!");
                 }
             }
             else
             {
-                throw new ServiceInvalidPriceException("Price", "Price incorrect input!");
+                throw new ServiceInvalidPriceException("Price:", "Price incorrect input!");
             }
         }
         #endregion
-
 
         #region RemoveOrder
         public void RemoveOrder(int orderNo)

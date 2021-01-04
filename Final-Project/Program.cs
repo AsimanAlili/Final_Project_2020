@@ -14,7 +14,7 @@ namespace Final_Project
         {
             #region RestaurantManager
             RestaurantManager restaurantManager = new RestaurantManager();
-            Console.WriteLine("=~=~=~=~=~=~Restaurant~=~=~=~=~=~=");
+            Console.WriteLine("=~=~=~=~=~=~=Restaurant=~=~=~=~=~=~=");
             bool oprChecker = true;
         MenuStart:
             if (!oprChecker)
@@ -22,10 +22,11 @@ namespace Final_Project
                 Console.WriteLine("Error! Choose the right operation!");
                 oprChecker = true;
             }
-            Console.WriteLine("1.Perform an operation on the Menu");
-            Console.WriteLine("2.Perform an operation on the Order");
+            Console.WriteLine("1.Perform an operation on the *Menu*");
+            Console.WriteLine("2.Perform an operation on the *Order*");
             Console.WriteLine("0.Exit to system");
-            Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=");
+            Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=");
+
             #endregion
 
             #region RestaurantManagerSwitch
@@ -38,7 +39,7 @@ namespace Final_Project
                 case "1":
                     #region MenuItemsChecker
 
-                    Console.WriteLine("=~=~=~=~=~=~=~Menu~=~=~=~=~=~=~=");
+                    Console.WriteLine("=~=~=~=~=~=~=~=~Menu~=~=~=~=~=~=~=~=");
                     bool oprMenuChecker = true;
                 MenuItemStart:
 
@@ -48,15 +49,16 @@ namespace Final_Project
                         oprMenuChecker = true;
                     }
 
-                    Console.WriteLine("1.Add new menu item");
-                    Console.WriteLine("2.Edit menu item");
-                    Console.WriteLine("3.Remove menu item");
-                    Console.WriteLine("4.Show all menu items");
-                    Console.WriteLine("5.Show menu items category");
-                    Console.WriteLine("6.Show menu items price interval");
-                    Console.WriteLine("7.Search menu items by name");
+                    Console.WriteLine("1.Add new *Menu item*");
+                    Console.WriteLine("2.Edit *Menu item*");
+                    Console.WriteLine("3.Remove *Menu item*");
+                    Console.WriteLine("4.Show all *Menu items*");
+                    Console.WriteLine("5.Show menu items *Category*");
+                    Console.WriteLine("6.Show menu items *Price interval*");
+                    Console.WriteLine("7.Search menu items by *Name*");
                     Console.WriteLine("0.Go back to main menu");
-                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=");
+                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=");
+
                     #endregion
 
                     #region MenuItemSwitchCase
@@ -64,11 +66,8 @@ namespace Final_Project
                     switch (menuOpt)
                     {
                         case "1":
-
                             AddMenuItem(ref restaurantManager);
-
                             break;
-
                         case "2":
                             EditMenuItem(ref restaurantManager);
                             break;
@@ -100,7 +99,7 @@ namespace Final_Project
 
                 case "2":
                     #region OrderChecker
-                    Console.WriteLine("=~=~=~=~=~=~=~Order~=~=~=~=~=~=~=");
+                    Console.WriteLine("=~=~=~=~=~=~=~=~Order=~=~=~=~=~=~=~=");
 
                     bool oprOrderChecker = true;
                 OrderStart:
@@ -111,15 +110,15 @@ namespace Final_Project
                         oprOrderChecker = true;
                     }
 
-                    Console.WriteLine("1.Add new order");
-                    Console.WriteLine("2.Remove order");
-                    Console.WriteLine("3.Show all order");
-                    Console.WriteLine("4.Show orders date interval");
-                    Console.WriteLine("5.Show orders price interval");
-                    Console.WriteLine("6.Show order by date");
-                    Console.WriteLine("7.Show  order by No");
+                    Console.WriteLine("1.Add new *Order*");
+                    Console.WriteLine("2.Remove *Order*");
+                    Console.WriteLine("3.Show all *Order*");
+                    Console.WriteLine("4.Show orders *Date* interval");
+                    Console.WriteLine("5.Show orders *Price* interval");
+                    Console.WriteLine("6.Show order by *Date*");
+                    Console.WriteLine("7.Show  order by *Number*");
                     Console.WriteLine("0.Go back to main menu");
-                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=");
+                    Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=");
 
                     #endregion
 
@@ -171,7 +170,7 @@ namespace Final_Project
         #region AddMenuItem
         public static void AddMenuItem(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Menu Item Name:");
+            Console.WriteLine("Menu Item *Name*:");
             string itemName = Console.ReadLine();
 
             while (string.IsNullOrWhiteSpace(itemName))
@@ -191,7 +190,7 @@ namespace Final_Project
             }
 
 
-            Console.WriteLine("Select category:");
+            Console.WriteLine("Select *Category*:");
 
             string[] categoryNames = Enum.GetNames(typeof(Category));
             for (int i = 0; i < categoryNames.Length; i++)
@@ -204,7 +203,7 @@ namespace Final_Project
 
             while (!int.TryParse(selectedEnumStr, out selectedEnumInt) || selectedEnumInt < 0 || selectedEnumInt >= categoryNames.Length)
             {
-                Console.WriteLine("Error! Enter the category correctly!");
+                Console.WriteLine("Error! Enter the *Category* correctly!");
                 selectedEnumStr = Console.ReadLine();
             }
             Category selectedCategory = (Category)selectedEnumInt;
@@ -212,10 +211,12 @@ namespace Final_Project
             {
                 restaurantManager.AddMenuItem(itemName, price, selectedCategory);
                 Console.WriteLine("Menu items added successfully!");
+                Console.WriteLine("=~=~=~=~=~==~=~=~=~=~=~=~=~=~=~=~=");
+
             }
             catch (MenuItemAlreadyExistException ex)
             {
-                Console.WriteLine("Xeta bas verdi: " + ex.Message);
+                Console.WriteLine("An error occurred: " + ex.Message);
             }
 
         }
@@ -224,13 +225,13 @@ namespace Final_Project
         #region EditMenuItem
         public static void EditMenuItem(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the *No* you want to change:");
+            Console.WriteLine("Enter the *Number* you want to change:");
             string editStr = Console.ReadLine();
             
            
             while (!restaurantManager.IsExistByName(editStr))
             {
-                Console.WriteLine("Error! Enter the *No* correctly!");
+                Console.WriteLine("Error! Enter the *Number* correctly!");
                 editStr = Console.ReadLine();
             }
 
@@ -240,16 +241,16 @@ namespace Final_Project
 
             while (!double.TryParse(priceStr, out price) || price <= 0)
             {
-                Console.WriteLine("Error! Enter the price correctly!");
+                Console.WriteLine("Error! Enter the *Price* correctly!");
                 priceStr = Console.ReadLine();
             }
 
-            Console.WriteLine("Enter the name you want to change:");
+            Console.WriteLine("Enter the *Name* you want to change:");
             string itemName = Console.ReadLine();
 
             while (string.IsNullOrWhiteSpace(itemName))
             {
-                Console.WriteLine("Error! Enter the item name correctly!");
+                Console.WriteLine("Error! Enter the item *Name* correctly!");
                 itemName = Console.ReadLine();
             }
 
@@ -266,17 +267,17 @@ namespace Final_Project
         #region RemoveItem
         public static void RemoveItem(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the *No* you want to delete:");
+            Console.WriteLine("Enter the *Number* you want to delete:");
             string removeStr = Console.ReadLine();
             while (!restaurantManager.IsExistByName(removeStr))
             {
-                Console.WriteLine("Error! Enter the *No* correctly!");
+                Console.WriteLine("Error! Enter the *Number* correctly!");
                 removeStr = Console.ReadLine();
             }
 
             while (string.IsNullOrWhiteSpace(removeStr))
             {
-                Console.WriteLine("Error! Enter the number correctly!");
+                Console.WriteLine("Error! Enter the *Number* correctly!");
 
             }
             restaurantManager.RemoveItem(removeStr);
@@ -293,7 +294,7 @@ namespace Final_Project
         #region ShowItemsByCategory
         public static void ShowItemsByCategory(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Select category:");
+            Console.WriteLine("Select *Category*:");
 
             string[] categoryNames = Enum.GetNames(typeof(Category));
             for (int i = 0; i < categoryNames.Length; i++)
@@ -306,7 +307,7 @@ namespace Final_Project
 
             while (!int.TryParse(selectedEnumStr, out selectedEnumInt) || selectedEnumInt < 0 || selectedEnumInt >= categoryNames.Length)
             {
-                Console.WriteLine("Error! Enter the category correctly!");
+                Console.WriteLine("Error! Enter the *Category* correctly!");
                 selectedEnumStr = Console.ReadLine();
             }
             Category selectedCategory = (Category)selectedEnumInt;
@@ -322,23 +323,23 @@ namespace Final_Project
         #region ShowItemsByPriceInterval
         public static void ShowItemsByPriceInterval(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the first price:");
+            Console.WriteLine("Enter the *First* price:");
             string firstPriceStr = Console.ReadLine();
             double firstPrice;
 
             while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice <= 0)
             {
-                Console.WriteLine("Error! Enter the price correctly!");
+                Console.WriteLine("Error! Enter the *Price* correctly!");
                 firstPriceStr = Console.ReadLine();
             }
-            Console.WriteLine("Enter the second price:");
+            Console.WriteLine("Enter the *Second* price:");
 
             string secondPriceStr = Console.ReadLine();
             double secondPrice;
 
             while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice <= 0)
             {
-                Console.WriteLine("Error! Enter the price correctly!");
+                Console.WriteLine("Error! Enter the *Price* correctly!");
                 secondPriceStr = Console.ReadLine();
             }
             List<MenuItem> itemsCategory = restaurantManager.GetMenuItemsPriceInterval(firstPrice, secondPrice);
@@ -353,23 +354,22 @@ namespace Final_Project
         #region SearchItemsByName
         public static void SearchItemsByName(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the name you are looking for:");
+            Console.WriteLine("Enter the *Name* you are looking for:");
             string searchName = Console.ReadLine();
 
             while (string.IsNullOrWhiteSpace(searchName))
             {
-                Console.WriteLine("Error! Enter the search correctly!");
+                Console.WriteLine("Error! Enter the *Search* correctly!");
                 searchName = Console.ReadLine();
             }
             foreach (var item in restaurantManager.Search(searchName))
             {
-                Console.WriteLine($"Name; {item.Name}\nNo: {item.Name}\nCategory: {item.Category}\nPrice: {item.Price}");
+                Console.WriteLine($"Name: {item.Name}\nNo: {item.No}\nCategory: {item.Category}\nPrice: {item.Price}");
             }
 
         }
         #endregion
         #endregion
-
 
         #region OrderMethods
         #region CreatOrderItems
@@ -400,31 +400,31 @@ namespace Final_Project
             List<OrderItem> orderItems = new List<OrderItem>();
             List<OrderItem> orderItems1 = new List<OrderItem>();
         AddOrder:
-            Console.WriteLine("Enter Menu Number");
+            Console.WriteLine("Enter Menu *Number*");
             string orderNo = Console.ReadLine();
 
             while (!restaurantManager.IsExistByName(orderNo))
             {
-                Console.WriteLine("Error! Enter the *No* correctly!");
+                Console.WriteLine("Error! Enter the *Number* correctly!");
                 orderNo = Console.ReadLine();
             }
 
 
             while (string.IsNullOrWhiteSpace(orderNo))
             {
-                Console.WriteLine("Error! Enter the order number correctly!");
+                Console.WriteLine("Error! Enter the order *Number* correctly!");
                 orderNo = Console.ReadLine();
 
             }
 
             MenuItem menu = restaurantManager.MenuItems.Find(i => i.No.ToLower().Trim().Equals(orderNo.Trim().ToLower()));
-            Console.WriteLine("Enter the count:");
+            Console.WriteLine("Enter the *Count*:");
             string countStr = Console.ReadLine();
             int count;
 
             while (!int.TryParse(countStr, out count) || count < 1)
             {
-                Console.WriteLine("Error! Enter the count correctly!");
+                Console.WriteLine("Error! Enter the *Count* correctly!");
                 countStr = Console.ReadLine();
             }
 
@@ -443,7 +443,7 @@ namespace Final_Project
             string add = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(orderNo))
             {
-                Console.WriteLine("Error! Enter the order number correctly!");
+                Console.WriteLine("Error! Enter the order keys correctly!");
                 add = Console.ReadLine();
                
 
@@ -466,7 +466,7 @@ namespace Final_Project
 
             while (!int.TryParse(removeStr, out remove) || remove < 0)
             {
-                Console.WriteLine("Error! Enter the number correctly!");
+                Console.WriteLine("Error! Enter the *No* correctly!");
                 removeStr = Console.ReadLine();
             }
 
@@ -487,18 +487,18 @@ namespace Final_Project
         #region ShowOrderByDateInterval
         public static void ShowOrderByDateInterval(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter first date");
+            Console.WriteLine("Enter *First* date");
             DateTime datefirstTime = Convert.ToDateTime(Console.ReadLine());
           
 
-            Console.WriteLine("Enter second date");
+            Console.WriteLine("Enter *Second* date");
             DateTime datesecondTime = Convert.ToDateTime(Console.ReadLine());
 
 
             List<Order> ordersDate = restaurantManager.GetOrdersByDatesInterval(datefirstTime, datesecondTime);
             if (ordersDate==null)
             {
-                Console.WriteLine("yoxdur");
+                Console.WriteLine("There are no orders in this date range");
             }
             else
             {
@@ -523,23 +523,23 @@ namespace Final_Project
         #region ShowOrdersPriceInterval
         public static void ShowOrdersPriceInterval(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the first price:");
+            Console.WriteLine("Enter the *First* price:");
             string firstPriceStr = Console.ReadLine();
             double firstPrice;
 
             while (!double.TryParse(firstPriceStr, out firstPrice) || firstPrice <= 0)
             {
-                Console.WriteLine("Error! Enter the price correctly!");
+                Console.WriteLine("Error! Enter the *Price* correctly!");
                 firstPriceStr = Console.ReadLine();
             }
-            Console.WriteLine("Enter the second price:");
+            Console.WriteLine("Enter the second *Price*:");
 
             string secondPriceStr = Console.ReadLine();
             double secondPrice;
 
             while (!double.TryParse(secondPriceStr, out secondPrice) || secondPrice <= 0)
             {
-                Console.WriteLine("Error! Enter the price correctly!");
+                Console.WriteLine("Error! Enter the *Price* correctly!");
                 secondPriceStr = Console.ReadLine();
             }
             List<Order> orderPrice = restaurantManager.GetOrdersByPriceInterval(firstPrice, secondPrice);
@@ -578,13 +578,13 @@ namespace Final_Project
         #region ShowOrderByNo
         public static void ShowOrderByNo(ref RestaurantManager restaurantManager)
         {
-            Console.WriteLine("Enter the order *No*:");
+            Console.WriteLine("Enter the order *Number*:");
             string noStr = Console.ReadLine();
             int no;
 
             while (!int.TryParse(noStr, out no) || no < 0)
             {
-                Console.WriteLine("Error! Enter the *No* correctly!");
+                Console.WriteLine("Error! Enter the *Number* correctly!");
                 noStr = Console.ReadLine();
             }
 

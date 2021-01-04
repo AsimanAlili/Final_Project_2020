@@ -7,9 +7,10 @@ namespace Final_Project.Sturucture.Models
 {
     public class OrderItem
     {
+        #region OrderItem
         private int _count;
         public MenuItem MenuItem { get; set; }
-        public int Count 
+        public int Count
         {
             get
             {
@@ -25,15 +26,17 @@ namespace Final_Project.Sturucture.Models
                 {
                     this._count = value;
                 }
-                 
-               
+
+
             }
         }
 
-        public OrderItem(MenuItem menuItem,int count)
+        public OrderItem(MenuItem menuItem, int count)
         {
             this.MenuItem = menuItem;
             this.Count = count;
         }
+        #endregion
+
     }
 }

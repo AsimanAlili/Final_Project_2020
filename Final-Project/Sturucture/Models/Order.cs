@@ -7,9 +7,10 @@ namespace Final_Project.Sturucture.Models
 {
     public class Order
     {
+        #region Order
         private int _no;
         private double _totalAmount;
-        public int No { get { return _no; } } 
+        public int No { get { return _no; } }
         public static int OrderCounter { get; set; }
         public double TotalAmount { get { return _totalAmount; } }
         public DateTime Date { get; set; }
@@ -17,7 +18,7 @@ namespace Final_Project.Sturucture.Models
         public Order()
         {
             OrderCounter++;
-            _no=OrderCounter;
+            _no = OrderCounter;
             Date = DateTime.Now.Date;
             OrderItems = new List<OrderItem>();
         }
@@ -32,14 +33,16 @@ namespace Final_Project.Sturucture.Models
             if (orderItem == null) return;
 
 
-            
-            
-                orderItem.Count = count;
-                this._totalAmount += count * orderItem.MenuItem.Price;
-            
+
+
+            orderItem.Count = count;
+            this._totalAmount += count * orderItem.MenuItem.Price;
+
 
         }
         #endregion
+        #endregion
+
 
 
     }
