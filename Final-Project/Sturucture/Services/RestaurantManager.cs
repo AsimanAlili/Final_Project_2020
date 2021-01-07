@@ -213,7 +213,7 @@ namespace Final_Project.Sturucture.Services
                         {
                             totalCount += item.Count;
                         }
-                        Console.WriteLine($"Total Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
+                        Console.WriteLine($"Order No: {orderItem.No}\nTotal Amount: {orderItem.TotalAmount}\nDate: {orderItem.Date}\nCount: {totalCount}");
                     }
                     
                 }
